@@ -1,0 +1,76 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+}
+
+.App {
+	width: 100%;
+	height: 100%;
+}
+
+.landing {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.LoginInput {
+	width: 60%;
+	height: 5%;
+	border: none;
+	border-color: #ccc;
+	padding: 0;
+	padding-left: 2px;
+	margin: 5px;
+	font-size: 150%;
+	font-weight: 200;
+}
+
+.Login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.LoginContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	background-image: url("https://cdn.intra.42.fr/users/klozano-.jpg");
+	background-position: center;
+	background-size: cover;
+}
+
+.LoginButton {
+	background-color: green;
+	color: white;
+	width: 60%;
+	height: 4%;
+	padding: 0;
+	border: 0;
+	margin: 5px;
+	outline: 0;
+}
+
+.LoginButton:hover {
+	opacity: 80%;
+}
+
+.LoginButton:active {
+	opacity: 50%;
+}
