@@ -38,6 +38,12 @@ class AppNav extends Component {
 		this.props.history.push("/");
 	}
 
+	onLogin = (e) => {
+		e.preventDefault();
+
+		this.props.history.push("/login");
+	}
+
 	componentDidMount = async () => {
 		const { cookies } = this.props;
 
@@ -51,6 +57,25 @@ class AppNav extends Component {
 	};
 
 	render() {
+		const { cookies } = this.props;
+
+		let token = cookies.get("token");
+
+		let LogButton;
+		if (token !== undefined) {
+			LogButton = (
+				<Form onSubmit={this.onLogout}>
+					<Button>Logout</Button>
+				</Form>
+			);
+		} else {
+			LogButton = (
+				<Form onSubmit={this.onLogin}>
+					<Button>Login</Button>
+				</Form>
+			);
+		}
+
 		return (
 			<Navbar color="light" light expand="md">
 			<NavbarBrand href="/">camagru</NavbarBrand>
@@ -59,21 +84,19 @@ class AppNav extends Component {
 					<NavLink href="/camera">Camera</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink href="/gallery">Gallery</NavLink>
+					{token !== undefined ? <NavLink href="/gallery">Gallery</NavLink> : null}
 				</NavItem>
 				<NavItem>
 					<NavLink href="/feed">Feed</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink href="/profile">Profile</NavLink>
+					{token !== undefined ? <NavLink href="/profile">Profile</NavLink> : null}
 				</NavItem>
 				<NavItem>
-					<NavLink href="/settings">Settings</NavLink>
+					{token !== undefined ? <NavLink href="/settings">Settings</NavLink> : null}
 				</NavItem>
 			</Nav>
-			<Form onSubmit={this.onLogout}>
-				<Button>Logout</Button>
-			</Form>
+			{LogButton}
 			</Navbar>
 		);
 	}
