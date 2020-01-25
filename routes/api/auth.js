@@ -32,4 +32,32 @@ router.route("/ping").post(function(req, res) {
 	}
 });
 
+/*
+ * This function shall send a password reset link to the user.
+ * It will always respond with 200 OK.
+ */
+router.route("/sendpasswordlink").post(function(req, res) {
+	const body = req.body;
+
+	res.send();
+});
+
+router.route("/getUserDetails").post(function(req, res) {
+	const body = req.body;
+
+	if (body.token === "good_token") {
+		let res = {
+			photo: "https://cdn.intra.42.fr/users/zfaria.jpg",
+			email: "good@email.com",
+			username: "good",
+			notifications: true,
+			status: "ok"
+		}
+	} else {
+		res.send({status: "ko"});
+	}
+
+	res.send();
+});
+
 module.exports = router;

@@ -18,16 +18,14 @@ class Login extends Component {
 		}
 	}
 
-	componentDidMount = (props, state, snap) => {
+	componentDidMount = async () => {
 		const { cookies } = this.props;
 
 		let token = cookies.get("token");
-		ping({token: token}).then(res => {
-			console.log(res);
-			if (res.data.status === "ok") {
-				this.props.history.push("/");
-			}
-		});
+		let res = await ping({token: token});
+		if (res.data.status === "ok") {
+			this.props.history.push("/");
+		}
 	}
 
 	submit = async (e) => {

@@ -1,0 +1,29 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+.SettingsContainer {
+    display: flex;
+    background-color: red;
+    height: 100%;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.SettingsNotification {
+}
+
+.SettingsText {
+    width: 50%;
+    margin-left: 25%;
+}

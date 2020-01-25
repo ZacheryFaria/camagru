@@ -11,3 +11,7 @@ export const ping = (token) => {
 export const logout = (token) => {
 	return axios.post("http://localhost:5000/api/auth/logout", token);
 }
+
+export const getUserDetails = (token) => {
+	return axios.post("http://localhost:5000/api/auth/getUserDetails", token);
+}

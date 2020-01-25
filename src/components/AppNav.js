@@ -38,19 +38,17 @@ class AppNav extends Component {
 		this.props.history.push("/");
 	}
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		const { cookies } = this.props;
 
 		let token = cookies.get("token");
-		ping({token: token}).then(res => {
-			console.log(res);
-			if (res.data.status === "ko") {
-				this.setState({loggedIn: false});
-			} else {
-				this.setState({loggedIn: true});
-			}
-		});
-	}
+		let res = await ping(token);
+		if (res.data.status === "ko") {
+			this.setState({loggedIn: false});
+		} else {
+			this.setState({loggedIn: true});
+		}
+	};
 
 	render() {
 		return (
@@ -65,6 +63,12 @@ class AppNav extends Component {
 				</NavItem>
 				<NavItem>
 					<NavLink href="/feed">Feed</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink href="/profile">Profile</NavLink>
+				</NavItem>
+				<NavItem>
+					<NavLink href="/settings">Settings</NavLink>
 				</NavItem>
 			</Nav>
 			<Form onSubmit={this.onLogout}>

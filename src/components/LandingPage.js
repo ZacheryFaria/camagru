@@ -9,20 +9,17 @@ class LandingPage extends Component {
 		cookies: instanceOf(Cookies).isRequired
 	}
 
-	componentDidMount = (props, state, snap) => {
+	componentDidMount = async () => {
 		const { cookies } = this.props;
 
-
 		let token = cookies.get("token");
-		ping({token: token}).then(res => {
-			console.log(res);
-			if (res.data.status === "ko") {
-				this.props.history.push("/login");
-			} else {
-				this.props.history.push("/camera");
-			}
-		});
-	}
+		let res = await ping({token: token});
+		if (res.data.status === "ko") {
+			this.props.history.push("/login");
+		} else {
+			this.props.history.push("/camera");
+		}
+	};
 
 	render() {
 		const { cookies } = this.props;
