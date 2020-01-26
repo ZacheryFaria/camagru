@@ -15,7 +15,7 @@ html, body {
 }
 
 .CameraCanvas {
-	height: 50%;
+	height: 60%;
 	width: 75%;
 	display: none;
 	background-color: red;
@@ -23,7 +23,7 @@ html, body {
 
 .CameraVideo {
 	width: 75%;
-	height: 50%;
+	height: 60%;
 	object-fit: fill;
 }
 
@@ -40,4 +40,6 @@ html, body {
 	border: none;
 	padding: none;
 	background-color: green;
+	color: white;
+	margin-bottom: 10px;
 }

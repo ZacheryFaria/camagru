@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/content", require("./routes/api/content"));
 
 
 const port = 5000;

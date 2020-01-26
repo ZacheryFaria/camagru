@@ -16,7 +16,7 @@ import { withRouter } from "react-router-dom";
 class AppNav extends Component {
 	static propTypes = {
 		cookies: instanceOf(Cookies).isRequired
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -77,7 +77,7 @@ class AppNav extends Component {
 		}
 
 		return (
-			<Navbar color="light" light expand="md">
+			<Navbar color="dark" dark expand="md">
 			<NavbarBrand href="/">camagru</NavbarBrand>
 			<Nav className="mr-auto" navbar>
 				<NavItem>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withCookies } from 'react-cookie';
 import AppCamera from "./AppCamera";
 import "./Camera.css"
+import FilterBar from "./FilterBar";
 
 function Camera(props) {
 	const [tookPicture, setTookPicture] = useState(false);
@@ -21,12 +22,12 @@ function Camera(props) {
 
 	function retakePicture() {
 		setTookPicture(false);
-		var canv = document.getElementById("videocanvas");
+		let canv = document.getElementById("videocanvas");
 		canv.style.display = "none";
-		var ctx = canv.getContext("2d");
+		let ctx = canv.getContext("2d");
 		ctx.clearRect(0, 0, canv.width, canv.height);
 
-		var vid = document.getElementById("video");
+		let vid = document.getElementById("video");
 		vid.style.display = "block";
 	}
 
@@ -34,21 +35,28 @@ function Camera(props) {
 		console.log("upload...");
 	}
 
+	function savePicture() {
+		console.log("save");
+	}
+
 	useEffect(() => {
 		console.log("updated");
 	});
 
-	const takeButton = <button className="CameraButton" onClick={takePicture}>Take Picture</button>
-	const retakeButton = <button className="CameraButton" onClick={retakePicture}>Retake Picture</button>
-	const uploadButton = <button className="CameraButton" onClick={uploadPicture}>Upload Picture</button>
+	const takeButton = <button className="CameraButton" onClick={takePicture}>Take Picture</button>;
+	const retakeButton = <button className="CameraButton" onClick={retakePicture}>Retake Picture</button>;
+	const uploadButton = <button className="CameraButton" onClick={uploadPicture}>Upload Picture</button>;
+	const saveButton = <button className="CameraButton" onClick={savePicture}>Save Picture</button>;
 
 	return(
 		<div className="Camera">
+			<FilterBar/>
 			<canvas className="CameraCanvas" id="videocanvas"/>
 			<AppCamera />
 			{!tookPicture ? takeButton : null}
 			{tookPicture ? retakeButton : null}
 			{tookPicture ? uploadButton : null}
+			{tookPicture ? saveButton : null}
 		</div>
 	)
 }
