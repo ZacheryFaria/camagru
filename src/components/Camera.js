@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { withCookies } from 'react-cookie';
+import { withCookies, useCookies } from 'react-cookie';
 import AppCamera from "./AppCamera";
 import "./Camera.css"
 import FilterBar from "./FilterBar";
+import {upload} from "../actions/ContentAction"
 
 function Camera(props) {
 	const [tookPicture, setTookPicture] = useState(false);
+	const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
 	function takePicture() {
 		console.log("hello");
@@ -32,7 +34,16 @@ function Camera(props) {
 	}
 
 	function uploadPicture() {
-		console.log("upload...");
+		let canv = document.getElementById("videocanvas");
+		let uri = canv.toDataURL("image/png");
+
+		let req = {
+			data: uri,
+			token: cookies.token,
+		};
+
+		console.log(req);
+		upload(req);
 	}
 
 	function savePicture() {

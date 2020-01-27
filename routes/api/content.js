@@ -3,11 +3,8 @@ const router = express.Router();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const Schema = require("mongoose");
+const uniqueFilename = require('unique-filename')
 
-secret = fs.readFileSync("./secret.txt");
-
-mongoose.connect("mongodb+srv://shortener:" + secret + "@42cluster-un8uy.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true})
-    .then(() => console.log("Connected to mongo!"));
 
 const Post = mongoose.model('Post', {
     created: {type: Date, default: Date.now},
@@ -17,15 +14,43 @@ const Post = mongoose.model('Post', {
 });
 
 function validateToken(token) {
-    return token === "good_token";
+    if (token === "good_token") {
+        return {
+            valid: true,
+            userId: "user"
+        }
+    } else {
+        return {
+            valid: false
+        }
+    }
 }
 
 router.route("/upload").post(function(req, res) {
-    if (validateToken(req.body.token)) {
-        console.log(req.body);
-        res.send();
+    let user = validateToken(req.body.token);
+
+    if (user.valid === false) {
+        return;
     }
-    res.send({status: "ko"});
+    console.log(req.body);
+
+    const randomFile = uniqueFilename("./store", "user");
+
+    fs.writeFile(randomFile, req.body.data, err => {
+        console.log(err);
+    });
+
+    console.log(randomFile.split("\\")[1]);
+
+    var post = new Post({
+        media: randomFile.split("\\")[1],
+        userId: user.userId
+    });
+
+    console.log(post);
+
+
+    res.send();
 });
 
 module.exports = router;

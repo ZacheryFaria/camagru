@@ -38,7 +38,6 @@ html, body {
 .CameraButton {
 	width: 25%;
 	border: none;
-	padding: none;
 	background-color: green;
 	color: white;
 	margin-bottom: 10px;
