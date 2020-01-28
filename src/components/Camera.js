@@ -5,9 +5,9 @@ import "./Camera.css"
 import FilterBar from "./FilterBar";
 import {upload} from "../actions/ContentAction"
 
-function Camera(props) {
+function Camera() {
 	const [tookPicture, setTookPicture] = useState(false);
-	const [cookies, setCookie, removeCookie] = useCookies(['token']);
+	const [cookies] = useCookies(['token']);
 
 	function takePicture() {
 		console.log("hello");
@@ -43,7 +43,9 @@ function Camera(props) {
 		};
 
 		console.log(req);
-		upload(req);
+		upload(req).then(res => {
+			console.log(res);
+		});
 	}
 
 	function savePicture() {

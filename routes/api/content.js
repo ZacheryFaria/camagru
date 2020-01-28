@@ -1,56 +1,85 @@
 const express = require("express");
 const router = express.Router();
 const fs = require('fs');
-const mongoose = require('mongoose');
-const Schema = require("mongoose");
-const uniqueFilename = require('unique-filename')
+const Post = require("../../models/Post.model");
+const Comment = require("../../models/Comment.model");
+const User = require("../../models/User.model");
+const uniqueFilename = require('unique-filename');
+const auth = require("./auth");
 
-
-const Post = mongoose.model('Post', {
-    created: {type: Date, default: Date.now},
-    media: {type: String},
-    userId: {type: mongoose.Types.ObjectId, ref: "User"},
-    likes: [{type: Schema.Types.ObjectId, default: '[]'}],
-});
-
-function validateToken(token) {
-    if (token === "good_token") {
-        return {
-            valid: true,
-            userId: "user"
-        }
-    } else {
-        return {
-            valid: false
-        }
-    }
-}
-
-router.route("/upload").post(function(req, res) {
-    let user = validateToken(req.body.token);
+router.route("/upload").post(async function(req, res) {
+    let user = await auth.validateToken(req.body.token);
 
     if (user.valid === false) {
+		res.send({status: "Invalid token."});
         return;
-    }
-    console.log(req.body);
-
-    const randomFile = uniqueFilename("./store", "user");
+	}
+	
+    const randomFile = uniqueFilename("./store", user.userId);
 
     fs.writeFile(randomFile, req.body.data, err => {
-        console.log(err);
+        if (err !== null) {
+			console.log(err);
+		}
     });
 
-    console.log(randomFile.split("\\")[1]);
-
-    var post = new Post({
-        media: randomFile.split("\\")[1],
+    Post.create({
+        media: randomFile.split("/")[1],
         userId: user.userId
-    });
+    }, (err, post) => {
+		if (post !== null) {
+			res.send({status: "ok", postId: post._id});
+		} else {
+			console.log(err);
+			res.send({status: "There was an error submitting your post."});
+		}
+	});
+});
 
-    console.log(post);
+router.route("/getpost").post(async function(req, res) {
+	let post = await Post.findOne({_id: req.body.id});
 
+	if (post === null) {
+		res.send({ status: "ko" });
+	} else {
+		let uri = fs.readFileSync("./store/" + post.media);
+		res.send({ media: uri.toString(), status: "ok" });
+	}
+});
 
-    res.send();
+router.route("/addcomment").post(async function(req, res) {
+	let user = await auth.validateToken(req.body.token);
+
+	if (user.valid === false) {
+		res.send({status: "Invalid token."});
+        return;
+	}
+
+	Comment.create({
+		userId: user.userId,
+		message: req.body.message,
+		postId: req.body.postId,
+	}, (err, comment) => {
+		if (comment !== null) {
+			res.send({status: "ok", comment: comment._id});
+		} else {
+			console.log(err);
+			res.send({status: "There was an error submitting your comment."});
+		}
+	});
+});
+
+router.route("/getcomments").post(async function(req, res) {
+	let comments = await Comment.find({postId: req.body.id});
+
+	for (var i = 0; i < comments.length; i++) {
+		let user = await User.findOne({_id: comments[i].userId});
+		let comment = comments[i];
+		comment._doc.username = user.username;
+		comments[i] = comment;
+	}
+
+	res.send(comments);
 });
 
 module.exports = router;

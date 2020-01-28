@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 app = express();
 
-app.use(bodyParser.json({limit: '3mb'}));
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(cors());
 
 app.use("/api/auth", require("./routes/api/auth"));

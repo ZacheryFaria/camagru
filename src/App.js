@@ -1,5 +1,5 @@
 import React from 'react';
-import { CookiesProvider, useCookies } from 'react-cookie';
+import { CookiesProvider } from 'react-cookie';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
@@ -11,10 +11,9 @@ import Camera from "./components/Camera";
 import Settings from "./components/Settings";
 import NotFoundPage from "./components/NotFoundPage";
 import RegisterComplete from "./components/RegisterComplete";
+import Post from "./components/Post";
 
 function App() {
-	const [cookies, setCookie] = useCookies(['token']);
-
 	return (
 		<CookiesProvider>
 			<div className="App" >
@@ -24,6 +23,7 @@ function App() {
 						<Switch>
 							<Route exact path="/" component={LandingPage}/>
 							<Route exact path="/login" component={Login}/>
+							<Route exact path="/post/:id" component={Post}/>
 							<Route exact path="/register" component={Register}/>
 							<Route exact path="/camera" component={Camera}/>
 							<Route exact path="/settings" component={Settings}/>

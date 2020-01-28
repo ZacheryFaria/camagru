@@ -1,34 +1,23 @@
-import React, { Component } from "react";
-import { withCookies, Cookies } from 'react-cookie';
-import { instanceOf } from "prop-types";
-import { ping } from "../actions/AuthActions"
+import React, { useEffect } from "react";
+import { useCookies } from 'react-cookie';
 
-class LandingPage extends Component {
+function LandingPage(props) {
+	const [ cookies ] = useCookies("token");
 
-	static propTypes = {
-		cookies: instanceOf(Cookies).isRequired
-	}
-
-	componentDidMount = async () => {
-		const { cookies } = this.props;
-
-		let token = cookies.get("token");
-		let res = await ping({token: token});
-		if (res.data.status === "ko") {
-			this.props.history.push("/login");
+	useEffect(() => {
+		let token = cookies.token;
+		if (token !== undefined) {
+			props.history.push("/camera");
 		} else {
-			this.props.history.push("/camera");
+			props.history.push("/login");
 		}
-	};
+	}, [cookies.token, props.history]);
 
-	render() {
-		const { cookies } = this.props;
-		return (
-			<div className="landing">
-				{cookies.get("token") }
-			</div>
-		);
-	}
+	return (
+		<div className="landing">
+			{ cookies.token }
+		</div>
+	);
 }
 
-export default withCookies(LandingPage);
+export default LandingPage;

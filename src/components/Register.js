@@ -35,7 +35,7 @@ class Register extends Component {
     submit = async (e) => {
         e.preventDefault();
 
-        const { cookies } = this.props;
+        //const { cookies } = this.props;
 
         if (this.state.password !== this.state.password2) {
             alert("passwords must match!");

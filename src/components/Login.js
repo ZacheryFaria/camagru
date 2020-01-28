@@ -14,7 +14,7 @@ class Login extends Component {
 		super(props);
 
 		this.state = {
-			username: '',
+			email: '',
 			password: '',
 			status: null,
 		}
@@ -39,7 +39,7 @@ class Login extends Component {
 		console.log(response);
 
 		if (response.data.status === "ok") {
-			cookies.set("token", response.data.token, { path: '/' });
+			cookies.set("token", response.data.token, { path: '/', expires: new Date(Date.now() + 23*60*60*1000) });
 			this.props.history.push("/");
 			console.log(response.data);
 		} else {
@@ -56,7 +56,7 @@ class Login extends Component {
 			<div className="LoginContainer">
 				<form  className="Login" onSubmit={this.submit}>
 					<Link to="/register"><strong>Don't have an account? Register Here</strong></Link>
-					<input className="LoginInput" type="text" name="username" value={this.state.username} onChange={this.onChange} placeholder="Enter Username" required/>
+					<input className="LoginInput" type="text" name="email" value={this.state.email} onChange={this.onChange} placeholder="Enter Email" required/>
 					<input className="LoginInput" type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" required/>
 					<button className="LoginButton">Login</button>
 					<label><strong>{this.state.status}</strong></label>
