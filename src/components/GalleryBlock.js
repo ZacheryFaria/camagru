@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { getPost } from "../actions/ContentAction";
 
 function GalleryBlock(props) {
@@ -7,7 +7,7 @@ function GalleryBlock(props) {
 			let img = document.getElementById(props.postId);
 			img.src = res.data.media;
 		});
-	}, []);
+	}, [props.postId]);
 
 	return (
 		<div className="GalleryBlockContainer">

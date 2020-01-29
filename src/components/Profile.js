@@ -4,7 +4,7 @@ import { getUserPosts } from "../actions/ContentAction";
 import GalleryBlock from "./GalleryBlock";
 import "./Gallery.css";
 
-function Gallery(props) {
+function Profile(props) {
 	const [ cookies ] = useCookies(["token", "userId"]);
 	const [ blocks, setBlocks ] = useState([]);
 	const [ bottom, setBottom ] = useState(true);
@@ -34,26 +34,25 @@ function Gallery(props) {
 		}
 	}
 
-
 	useEffect(() => {
 		if (!bottom) {
 			return;
 		}
 		setBottom(false);
 		getUserPosts({id: userId, page: page.current}).then((res) => {
-			let tmp = res.data.map((e, i) => <GalleryBlock key={e._id} postId={e._id}/>);
+			let tmp = res.data.map((e) => <GalleryBlock key={e._id} postId={e._id}/>);
 			tmp = blocks.concat(tmp);
 			setBlocks(tmp);
 		});
 		page.current += 1;
-	}, [bottom]);
+	}, [bottom, blocks, userId]);
 
 
 	return (
-		<div id="Gallery" className="GalleryContainer">
+		<div className="GalleryContainer">
 			{blocks}
 		</div>
 	);
 }
 
-export default Gallery;
+export default Profile;

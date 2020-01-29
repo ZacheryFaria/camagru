@@ -46,6 +46,8 @@ function Camera() {
 		upload(req).then(res => {
 			console.log(res);
 		});
+
+		retakePicture();
 	}
 
 	function savePicture() {

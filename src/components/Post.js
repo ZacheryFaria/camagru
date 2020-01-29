@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { getPost } from "../actions/ContentAction";
+import React from "react";
 import CommentBox from "./CommentBox";
+import GalleryBlock from "./GalleryBlock";
 
 function Post(props) {
 	let id = props.match.params.id;
 
-	useEffect(() => {
-		getPost(id).then(res => {
-			if (res.data.status === "ko") {
-				props.history.push("/404");
-			} else {
-				let img = document.getElementById("img");
-				img.src = res.data.media;
-			}
-		});
-	}, []);
-
 	return (
 		<div className="PostContainer">
-			<img alt='' className="PostCanvas" id="img"/>
+			<GalleryBlock className="PostCanvas" postId={id} />
 			<CommentBox postId={id}/>
 		</div>
 	)

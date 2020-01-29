@@ -18,21 +18,14 @@ class AppNav extends Component {
 		cookies: instanceOf(Cookies).isRequired
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			loggedIn: false
-		}
-	}
-
 	onLogout = (e) => {
 		e.preventDefault();
 
 		const { cookies } = this.props;
 
 		logout(cookies.get("token"));
-		cookies.remove("token");
+		cookies.remove("token", { path: "/" });
+		cookies.remove("userId", { path: "/" });
 		this.props.history.push("/");
 	}
 
@@ -68,9 +61,6 @@ class AppNav extends Component {
 			<Nav className="mr-auto" navbar>
 				<NavItem>
 					<NavLink href="/camera">Camera</NavLink>
-				</NavItem>
-				<NavItem>
-					{token !== undefined ? <NavLink href="/gallery">Gallery</NavLink> : null}
 				</NavItem>
 				<NavItem>
 					<NavLink href="/feed">Feed</NavLink>

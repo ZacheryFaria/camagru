@@ -7,15 +7,19 @@ function CommentBox(props) {
 	const [ commentInput, setCommentInput ] = useState('');
 	const [ cookie ] = useCookies("token");
 	const [ comments, setComments ] = useState([]);
+	const [ sentComment, setSentComment ] = useState(true);
 
 	useEffect(() => {
+		if (!sentComment)
+			return;
+		setSentComment(false);
 		getComments(props.postId).then((res) => {
 			let tmp = res.data.map((comment, i) => 
 				<Comment key={i} userId={comment.userId} username={comment.username} date={comment.created} msg={comment.message}/>
 			);
 			setComments(tmp);
 		});
-	}, [props.postId]);
+	}, [props.postId, sentComment]);
 
 	function onChange(e) {
 		setCommentInput(e.target.value);
@@ -32,7 +36,7 @@ function CommentBox(props) {
 			postId: props.postId
 		};
 		addComment(msg).then(res => {
-			console.log(res);
+			setSentComment(true);
 		});
 	}
 
