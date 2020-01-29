@@ -29,7 +29,7 @@ function App() {
 							<Route exact path="/camera" component={Camera}/>
 							<Route exact path="/settings" component={Settings}/>
 							<Route exact path="/registercomplete" component={RegisterComplete}/>
-							<Route exact path="/gallery/:id?/:page?" component={Gallery}/>							<Route component={NotFoundPage}/>
+							<Route exact path="/gallery" component={Gallery}/>							<Route component={NotFoundPage}/>
 						</Switch>
 					</div>
 				</Router>

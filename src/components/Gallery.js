@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useCookies } from "react-cookie";
 import { getUserPosts } from "../actions/ContentAction";
 import GalleryBlock from "./GalleryBlock";
@@ -7,9 +7,24 @@ import "./Gallery.css";
 function Gallery(props) {
 	const [ cookies ] = useCookies(["token", "userId"]);
 	const [ blocks, setBlocks ] = useState([]);
+	const [ bottom, setBottom ] = useState(true);
+	const page = useRef(0);
 
 	let userId = props.match.params.id;
-	let page = props.match.params.page;
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+		document.addEventListener("scroll", trackScrolling);
+		return () => {
+			document.removeEventListener("scroll", trackScrolling);
+		};
+	}, []);
+
+	function trackScrolling() {
+		if (document.body.scrollHeight - window.scrollY <= window.innerHeight) {
+			setBottom(true);
+		}
+	}
 
 	if (userId === undefined) {
 		if (cookies.userId === undefined) {
@@ -19,22 +34,23 @@ function Gallery(props) {
 		}
 	}
 
-	page = page === undefined ? 0 : page;
 
 	useEffect(() => {
-		console.log(userId);
-		console.log(page);
-		getUserPosts({id: userId, page: page}).then((res) => {
-			console.log(res.data);
-			let tmp = res.data.map((e, i) => <GalleryBlock key={i} postId={e._id}/>);
-			console.log(tmp);
+		if (!bottom) {
+			return;
+		}
+		setBottom(false);
+		getUserPosts({id: userId, page: page.current}).then((res) => {
+			let tmp = res.data.map((e, i) => <GalleryBlock key={e._id} postId={e._id}/>);
+			tmp = blocks.concat(tmp);
 			setBlocks(tmp);
 		});
-	}, [props.id, props.page]);
+		page.current += 1;
+	}, [bottom]);
 
 
 	return (
-		<div className="GalleryContainer">
+		<div id="Gallery" className="GalleryContainer">
 			{blocks}
 		</div>
 	);
