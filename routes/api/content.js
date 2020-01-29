@@ -82,4 +82,14 @@ router.route("/getcomments").post(async function(req, res) {
 	res.send(comments);
 });
 
+router.route("/getUserPosts").post(async function(req, res) {
+	const body = req.body;
+
+	console.log(body);
+
+	let posts = await Post.find({userId: body.id}).sort('-created').skip(body.page * 6).limit(6);
+
+	res.send(posts);
+});
+
 module.exports = router;

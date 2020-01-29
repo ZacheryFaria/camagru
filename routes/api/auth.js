@@ -39,7 +39,7 @@ router.route("/login").post(async function(req, res) {
 		let result = await bcrypt.compare(req.body.password, user.password);
 		if (result) {
 			let tok = await createToken(user);
-			res.send({status: "ok", token: tok});
+			res.send({status: "ok", token: tok, userId: user._id});
 		} else {
 			res.send({status: "Invalid email or password."});
 		}
@@ -107,22 +107,28 @@ router.route("/register").post(function(req, res) {
 	});
 });
 
-router.route("/getUserDetails").post(function(req, res) {
+router.route("/getUserDetails").post(async function(req, res) {
 	const body = req.body;
 
-	if (body.token === "good_token") {
-		let res = {
-			photo: "https://cdn.intra.42.fr/users/zfaria.jpg",
-			email: "good@email.com",
-			username: "good",
-			notifications: true,
-			status: "ok"
-		}
-	} else {
+	let token = await validateToken(req.body.token);
+
+	if (!token.valid) {
 		res.send({status: "ko"});
+		return;
 	}
 
-	res.send();
+	let user = await User.findOne({_id: token.userId});
+	user._doc.status = "ok";
+
+	// let res = {
+	// 	photo: "https://cdn.intra.42.fr/users/zfaria.jpg",
+	// 	email: "good@email.com",
+	// 	username: "good",
+	// 	notifications: true,
+	// 	status: "ok"
+	// }
+
+	res.send(user);
 });
 
 module.exports = router;

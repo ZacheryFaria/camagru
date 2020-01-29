@@ -15,3 +15,7 @@ export const getComments = (id) => {
 export const addComment = (data) => {
 	return axios.post("http://localhost:5000/api/content/addcomment", data);
 }
+
+export const getUserPosts = (query) => {
+	return axios.post("http://localhost:5000/api/content/getUserPosts", query);
+}

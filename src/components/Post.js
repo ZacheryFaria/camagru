@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getPost } from "../actions/ContentAction";
 import CommentBox from "./CommentBox";
 
 function Post(props) {
 	let id = props.match.params.id;
 
-	useState(() => {
+	useEffect(() => {
 		getPost(id).then(res => {
 			if (res.data.status === "ko") {
 				props.history.push("/404");

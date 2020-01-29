@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from "prop-types";
-import { ping, logout } from "../actions/AuthActions"
+import { logout } from "../actions/AuthActions"
 import { withRouter } from "react-router-dom";
 
 class AppNav extends Component {
@@ -30,11 +30,9 @@ class AppNav extends Component {
 		e.preventDefault();
 
 		const { cookies } = this.props;
-		console.log(e);
 
 		logout(cookies.get("token"));
 		cookies.remove("token");
-		console.log(this.props);
 		this.props.history.push("/");
 	}
 
@@ -43,18 +41,6 @@ class AppNav extends Component {
 
 		this.props.history.push("/login");
 	}
-
-	componentDidMount = async () => {
-		const { cookies } = this.props;
-
-		let token = cookies.get("token");
-		let res = await ping(token);
-		if (res.data.status === "ko") {
-			this.setState({loggedIn: false});
-		} else {
-			this.setState({loggedIn: true});
-		}
-	};
 
 	render() {
 		const { cookies } = this.props;

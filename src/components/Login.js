@@ -39,6 +39,7 @@ class Login extends Component {
 		console.log(response);
 
 		if (response.data.status === "ok") {
+			cookies.set("userId", response.data.userId, { path: '/', expires: new Date(Date.now() + 23*60*60*1000) })
 			cookies.set("token", response.data.token, { path: '/', expires: new Date(Date.now() + 23*60*60*1000) });
 			this.props.history.push("/");
 			console.log(response.data);
