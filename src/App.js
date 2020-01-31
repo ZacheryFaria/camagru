@@ -13,6 +13,7 @@ import NotFoundPage from "./components/NotFoundPage";
 import RegisterComplete from "./components/RegisterComplete";
 import Profile from "./components/Profile";
 import Post from "./components/Post";
+import Gallery from "./components/Gallery";
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 							<Route exact path="/register" component={Register}/>
 							<Route exact path="/camera" component={Camera}/>
 							<Route exact path="/settings" component={Settings}/>
+							<Route exact path="/gallery" component={Gallery}/>
 							<Route exact path="/registercomplete" component={RegisterComplete}/>
 							<Route exact path="/profile/:id?" component={Profile}/>							<Route component={NotFoundPage}/>
 						</Switch>

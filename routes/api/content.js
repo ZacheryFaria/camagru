@@ -85,7 +85,15 @@ router.route("/getcomments").post(async function(req, res) {
 router.route("/getUserPosts").post(async function(req, res) {
 	const body = req.body;
 
-	let posts = await Post.find({userId: body.id}).sort('-created').skip(body.page * 6).limit(6);
+	let posts = await Post.find({userId: body.id, created: {$lt: body.last}}).sort('-created').limit(6);
+	
+	res.send(posts);
+});
+
+router.route("/getAllPosts").post(async function(req, res) {
+	const body = req.body;
+
+	let posts = await Post.find({created: {$lt: body.last}}).sort('-created').limit(6);
 
 	res.send(posts);
 });

@@ -63,7 +63,7 @@ class AppNav extends Component {
 					<NavLink href="/camera">Camera</NavLink>
 				</NavItem>
 				<NavItem>
-					<NavLink href="/feed">Feed</NavLink>
+					<NavLink href="/gallery">Gallery</NavLink>
 				</NavItem>
 				<NavItem>
 					{token !== undefined ? <NavLink href="/profile">Profile</NavLink> : null}

@@ -19,3 +19,7 @@ export const addComment = (data) => {
 export const getUserPosts = (query) => {
 	return axios.post("http://localhost:5000/api/content/getUserPosts", query);
 }
+
+export const getAllPosts = (page) => {
+	return axios.post("http://localhost:5000/api/content/getAllPosts", page);
+}
