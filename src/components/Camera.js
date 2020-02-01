@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { withCookies, useCookies } from 'react-cookie';
 import AppCamera from "./AppCamera";
 import "./Camera.css"
 import FilterBar from "./FilterBar";
 import {upload} from "../actions/ContentAction"
+import CameraCanvas from "./CameraCanvas";
 
 function Camera() {
 	const [tookPicture, setTookPicture] = useState(false);
+	const [resetFilter, setResetFilter] = useState(false);
 	const [cookies] = useCookies(['token']);
+	const uri = useRef(null);
+	const filter = useRef(null);
 
 	function takePicture() {
-		console.log("hello");
 		var canv = document.getElementById("videocanvas");
 		canv.style.display = "block";
 		canv.width = 1920;
@@ -20,6 +23,9 @@ function Camera() {
 		vid.style.display = "none";
 		ctx.drawImage(vid, 0, 0, canv.width, canv.height);
 		setTookPicture(true);
+		let img = new Image();
+		img.src = canv.toDataURL("image/png");
+		uri.current = img;
 	}
 
 	function retakePicture() {
@@ -51,22 +57,43 @@ function Camera() {
 	}
 
 	function savePicture() {
-		console.log("save");
+		let canv = document.getElementById("videocanvas");
+		uri.current.src = canv.toDataURL("image/png");
+		filter.current = null;
+		setResetFilter(true);
+	}
+
+	function drawFilter(img) {
+		filter.current = img;
+		redraw(0, 0, 1.0);
+	}
+
+	function redraw(x, y, scale) {
+		var canv = document.getElementById("videocanvas");
+		var ctx = canv.getContext("2d");
+		ctx.clearRect(0, 0, canv.width, canv.height);
+		ctx.drawImage(uri.current, 0, 0, canv.width, canv.height);
+		if (filter.current !== null) {
+			let size = 200 * scale;
+			ctx.drawImage(filter.current, x - size / 2, y - size / 2, size, size);
+		}
 	}
 
 	useEffect(() => {
-		console.log("updated");
-	});
+		if (resetFilter) {
+			setResetFilter(false);
+		}
+	}, [resetFilter]);
 
 	const takeButton = <button className="CameraButton" onClick={takePicture}>Take Picture</button>;
 	const retakeButton = <button className="CameraButton" onClick={retakePicture}>Retake Picture</button>;
 	const uploadButton = <button className="CameraButton" onClick={uploadPicture}>Upload Picture</button>;
-	const saveButton = <button className="CameraButton" onClick={savePicture}>Save Picture</button>;
+	const saveButton = <button className="CameraButton" onClick={savePicture}>Save Filter</button>;
 
 	return(
 		<div className="Camera">
-			<FilterBar/>
-			<canvas className="CameraCanvas" id="videocanvas"/>
+			{tookPicture ? <FilterBar reset={resetFilter} draw={drawFilter} /> : null}
+			<CameraCanvas redraw={redraw}/>
 			<AppCamera />
 			{!tookPicture ? takeButton : null}
 			{tookPicture ? retakeButton : null}

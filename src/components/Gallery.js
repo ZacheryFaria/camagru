@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useCookies } from "react-cookie";
 import { getAllPosts } from "../actions/ContentAction";
 import GalleryBlock from "./GalleryBlock";
 import "./Gallery.css";
 
 function Gallery(props) {
-	const [ cookies ] = useCookies(["token", "userId"]);
 	const [ blocks, setBlocks ] = useState([]);
 	const [ bottom, setBottom ] = useState(true);
 	const last = useRef(Date.now());

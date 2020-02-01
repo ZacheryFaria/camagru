@@ -25,6 +25,7 @@ class Login extends Component {
 
 		let token = cookies.get("token");
 		let res = await ping({token: token});
+		console.log(res);
 		if (res.data.status === "ok") {
 			this.props.history.push("/");
 		}
