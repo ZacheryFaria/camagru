@@ -45,12 +45,18 @@ function CameraCanvas(props) {
 		canv.addEventListener("mousedown", mouseDown);
 		canv.addEventListener("mousemove", mouseMove);
 		canv.addEventListener("mouseup", mouseUp);
+		canv.addEventListener("touchstart", mouseDown);
+		canv.addEventListener("touchend", mouseMove);
+		canv.addEventListener("touchmove", mouseUp);
 		window.addEventListener("keydown", keyDown);
 
 		return (() => {
 			canv.removeEventListener("mousedown", mouseDown);
 			canv.removeEventListener("mousemove", mouseMove);
 			canv.removeEventListener("mouseup", mouseUp);
+			canv.removeEventListener("touchstart", mouseDown);
+			canv.removeEventListener("touchend", mouseMove);
+			canv.removeEventListener("touchmove", mouseUp);
 			window.removeEventListener("keydown", keyDown);
 		});
 	}, []);
