@@ -18,17 +18,20 @@ html, body {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-items: flex-start;
 	width: 100%;
 	height: 100%;;
 }
 
 .GalleryBlockContainer {
-	width: 45%;
-	height: 40%;
+	max-width: 500px;
 }
 
 .GalleryCanvas {
-	padding: 10px;
+	padding-top: 70px;
+	padding-left: 20px;
+	padding-right: 20px;
 	width: 100%;
 	height: 100%;
+	object-fit: contain;
 }

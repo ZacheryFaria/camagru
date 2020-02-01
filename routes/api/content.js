@@ -85,7 +85,7 @@ router.route("/getcomments").post(async function(req, res) {
 router.route("/getUserPosts").post(async function(req, res) {
 	const body = req.body;
 
-	let posts = await Post.find({userId: body.id, created: {$lt: body.last}}).sort('-created').limit(6);
+	let posts = await Post.find({userId: body.id, created: {$lt: body.last}}).sort('-created').limit(8);
 	
 	res.send(posts);
 });
@@ -93,7 +93,7 @@ router.route("/getUserPosts").post(async function(req, res) {
 router.route("/getAllPosts").post(async function(req, res) {
 	const body = req.body;
 
-	let posts = await Post.find({created: {$lt: body.last}}).sort('-created').limit(6);
+	let posts = await Post.find({created: {$lt: body.last}}).sort('-created').limit(8);
 
 	res.send(posts);
 });
