@@ -66,7 +66,7 @@ router.route("/logout").post(function(req, res) {
 router.route("/ping").post(async function(req, res) {
 	const body = req.body;
 
-	let valid = validateToken(req.body.token);
+	let valid = await validateToken(body.token);
 
 	res.send({status: valid.valid ? "ok" : "ko" });
 });
