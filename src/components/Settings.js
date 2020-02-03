@@ -16,7 +16,7 @@ class Settings extends Component {
             photo: '',
             username: '',
             email: '',
-            notifications: true,
+            receiveEmails: true,
         }
     }
 
@@ -33,7 +33,7 @@ class Settings extends Component {
                 email: res.data.email,
                 username: res.data.username,
                 photo: res.data.photo,
-                notifications: res.data.notifications
+                receiveEmails: res.data.receiveEmails
             });
         }
     };
@@ -43,7 +43,7 @@ class Settings extends Component {
             <div className="SettingsContainer">
                 <input className="SettingsText" value={this.state.username}/>
                 <input className="SettingsText" type="email" value={this.state.email}/>
-                <input className="SettingsNotification" type="checkbox" value={this.state.notifications}/>
+                <input className="SettingsNotification" type="checkbox" checked={this.state.receiveEmails}/>
             </div>
         )
     }

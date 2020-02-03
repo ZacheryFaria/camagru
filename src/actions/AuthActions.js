@@ -19,3 +19,11 @@ export const logout = (token) => {
 export const getUserDetails = (token) => {
 	return axios.post("http://localhost:5000/api/auth/getUserDetails", token);
 };
+
+export const validateEmail = (token) => {
+	return axios.post("http://localhost:5000/api/auth/validateEmail", token);
+}
+
+export const resendEmail = (email) => {
+	return axios.post("http://localhost:5000/api/auth/resendvalidationemail", email);
+}

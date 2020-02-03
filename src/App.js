@@ -15,6 +15,8 @@ import Profile from "./components/Profile";
 import Post from "./components/Post";
 import Gallery from "./components/Gallery";
 import Footer from './components/Footer';
+import Verify from "./components/Verify";
+import EmailResend from './components/EmailResend';
 
 function App() {
 	return (
@@ -32,7 +34,10 @@ function App() {
 							<Route exact path="/settings" component={Settings}/>
 							<Route exact path="/gallery" component={Gallery}/>
 							<Route exact path="/registercomplete" component={RegisterComplete}/>
-							<Route exact path="/profile/:id?" component={Profile}/>							<Route component={NotFoundPage}/>
+							<Route exact path="/profile/:id?" component={Profile}/>
+							<Route exact path="/verify/:id" component={Verify}/>
+							<Route exact path="/emailresend/:email" component={EmailResend}/>
+							<Route component={NotFoundPage}/>
 						</Switch>
 						<Footer/>
 					</div>

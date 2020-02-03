@@ -17,6 +17,8 @@ class Login extends Component {
 			email: '',
 			password: '',
 			status: null,
+			showVerificationResend: false,
+			showPasswordReset: false
 		}
 	}
 
@@ -45,7 +47,9 @@ class Login extends Component {
 			this.props.history.push("/");
 			console.log(response.data);
 		} else {
-			this.setState({status: response.data.status});
+			this.setState({status: response.data.msg});
+			this.setState({showVerificationResend: response.data.status === "2"});
+			this.setState({showPasswordReset: response.data.status === "1"});
 		}
 	};
 
@@ -62,6 +66,8 @@ class Login extends Component {
 					<input className="LoginInput" type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" required/>
 					<button className="LoginButton">Login</button>
 					<label><strong>{this.state.status}</strong></label>
+					{this.state.showPasswordReset ? <a href={`/passwordreset/${this.state.email}`}>Reset password?</a> : null}
+					{this.state.showVerificationResend ? <a href={`/emailresend/${this.state.email}`}>Resend Verification email?</a> : null}
 				</form>
 			</div>
 		)
