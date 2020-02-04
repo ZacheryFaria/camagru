@@ -1,52 +1,47 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./Settings.css";
 import {getUserDetails} from "../actions/AuthActions"
-import { withCookies, Cookies } from 'react-cookie';
-import { instanceOf } from "prop-types";
+import { useCookies } from 'react-cookie';
 
-class Settings extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    }
+function Settings(props) {
+	const [ username, setUsername ] = useState('');
+	const [ receiveEmails, setReceiveEmails ] = useState(false);
+	const [ cookies, setCookie, removeCookie ] = useCookies("token");
 
-    constructor(props) {
-        super(props);
+	useEffect(() => {
+		getUserDetails({token: cookies.token}).then(res => {
+			if (res.data.status === "ok") {
+				setUsername(res.data.username);
+				setReceiveEmails(res.data.receiveEmails);
+			} else {
+				props.history.push("/");
+			}
+		});
+	}, []);
 
-        this.state = {
-            photo: '',
-            username: '',
-            email: '',
-            receiveEmails: true,
-        }
-    }
+	function submit(e) {
+		e.preventDefault();
+	}
 
-    componentDidMount = async () => {
-        const { cookies } = this.props;
-
-        let token = cookies.get("token");
-        let res = await getUserDetails({token: token});
-
-        if (res.data.status === "ko") {
-            this.props.history.push("/");
-        } else {
-            this.setState({
-                email: res.data.email,
-                username: res.data.username,
-                photo: res.data.photo,
-                receiveEmails: res.data.receiveEmails
-            });
-        }
-    };
-
-    render() {
-        return (
-            <div className="SettingsContainer">
-                <input className="SettingsText" value={this.state.username}/>
-                <input className="SettingsText" type="email" value={this.state.email}/>
-                <input className="SettingsNotification" type="checkbox" checked={this.state.receiveEmails}/>
-            </div>
-        )
-    }
+	return (
+		<div className="SettingsContainer">
+			<form className="Settings" onSubmit={submit}>
+				<div className="SettingOption">
+					<label htmlFor="username">Username:</label>
+					<input id="username" className="SettingsInput" value={username} minLength="6" maxLength="16"
+						onChange={e => setUsername(e.target.value)}
+					/>
+				</div>
+				<div className="SettingOption">
+					<label htmlFor="email">Receive Emails</label>
+					<input id="email" type="checkbox" checked={receiveEmails}
+						onChange={e => setReceiveEmails(!receiveEmails)}
+					/>
+				</div>
+				<button className="SettingsButton">Submit</button>
+			</form>
+		</div>
+	);
 }
 
-export default withCookies(Settings);
+export default Settings;
