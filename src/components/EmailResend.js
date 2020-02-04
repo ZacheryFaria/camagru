@@ -8,8 +8,8 @@ function EmailResend(props) {
 	useEffect(() => {
 		resendEmail({email: email});
 		setStatus(`A new verification email has been sent to ${email}`);
-		props.history.push("/");
-	}, [])
+		//props.history.push("/");
+	}, [email])
 
 	return (
 		<div>

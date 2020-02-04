@@ -66,7 +66,7 @@ class Login extends Component {
 					<input className="LoginInput" type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" required/>
 					<button className="LoginButton">Login</button>
 					<label><strong>{this.state.status}</strong></label>
-					{this.state.showPasswordReset ? <a href={`/passwordreset/${this.state.email}`}>Reset password?</a> : null}
+					{this.state.showPasswordReset ? <a href={`/passwordresend/${this.state.email}`}>Reset password?</a> : null}
 					{this.state.showVerificationResend ? <a href={`/emailresend/${this.state.email}`}>Resend Verification email?</a> : null}
 				</form>
 			</div>

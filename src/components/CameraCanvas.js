@@ -25,12 +25,10 @@ function CameraCanvas(props) {
 	}
 
 	function mouseUp(e) {
-		//console.log(e);
 		down.current = false;
 	}
 
 	function keyDown(e) {
-		console.log(e);
 		if (e.key === '-') {
 			scale.current -= .1;
 			props.redraw(pos.current[0], pos.current[1], scale.current);

@@ -15,11 +15,11 @@ function Camera() {
 
 	function takePicture() {
 		var canv = document.getElementById("videocanvas");
-		canv.style.display = "block";
-		canv.width = 1920;
-		canv.height = 1080;
-		var ctx = canv.getContext("2d");
 		var vid = document.getElementById("video");
+		canv.style.display = "block";
+		canv.width = vid.videoWidth;
+		canv.height = vid.videoHeight;
+		var ctx = canv.getContext("2d");
 		vid.style.display = "none";
 		ctx.drawImage(vid, 0, 0, canv.width, canv.height);
 		setTookPicture(true);
