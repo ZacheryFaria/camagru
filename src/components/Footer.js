@@ -1,10 +1,14 @@
 import React from 'react';
 
-
 function Footer() {
 
+	const style = {
+		position: "absolute",
+		bottom: "0",
+	};
+
   return (
-    <footer className="footer"><a href="http://www.github.com/zacheryfaria">zacheryfaria</a></footer>
+    <footer style={style} className="Footer"><a href="http://www.github.com/zacheryfaria">zacheryfaria</a></footer>
   );
 }
 

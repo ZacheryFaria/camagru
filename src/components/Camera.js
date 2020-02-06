@@ -109,7 +109,6 @@ function Camera() {
 	}, [resetFilter]);
 
 	const takeButton = <button className="CameraButton" onClick={takePicture}>Take Picture</button>;
-	const uploadNewButton = <input type="file"  accept="image/png"/>
 	const retakeButton = <button className="CameraButton" onClick={retakePicture}>Retake Picture</button>;
 	const uploadButton = <button className="CameraButton" onClick={uploadPicture}>Upload Picture</button>;
 	const saveButton = <button className="CameraButton" onClick={savePicture}>Save Filter</button>;
