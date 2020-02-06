@@ -27,3 +27,19 @@ export const validateEmail = (token) => {
 export const resendEmail = (email) => {
 	return axios.post("http://localhost:5000/api/auth/resendvalidationemail", email);
 }
+
+export const sendPasswordLink = (email) => {
+	return axios.post("http://localhost:5000/api/auth/sendPasswordLink", email);
+}
+
+export const resetPasswordLink = (token) => {
+	return axios.post("http://localhost:5000/api/auth/resetPasswordLink", token);
+}
+
+export const changePassword = (data) => {
+	return axios.post("http://localhost:5000/api/auth/changePassword", data);
+}
+
+export const updateUserDetails = (data) => {
+	return axios.post("http://localhost:5000/api/auth/updateUserDetails", data);
+}

@@ -5,11 +5,10 @@ import { useCookies } from "react-cookie";
 function Verify(props) {
 	let id = props.match.params.id;
 	let [ status, setStatus ] = useState('');
-	let [ cookies, setCookie, removeCookie ] = useCookies("token", "userId");
+	let [ cookies, setCookie ] = useCookies("token", "userId");
 
 	useEffect(() => {
 		validateEmail({id: id}).then((res) => {
-			console.log(res);
 			if (res.data.status === "ko") {
 				setStatus(res.data.msg);
 			} else {
@@ -18,10 +17,10 @@ function Verify(props) {
 				props.history.push("/");
 			}
 		});
-	}, []);
+	}, [id, props.history, setCookie]);
 
 	return (
-		<div>{status}</div>
+		<div>{status} {cookies.userId}</div>
 	);
 }
 

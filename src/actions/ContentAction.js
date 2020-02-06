@@ -23,3 +23,27 @@ export const getUserPosts = (query) => {
 export const getAllPosts = (page) => {
 	return axios.post("http://localhost:5000/api/content/getAllPosts", page);
 }
+
+export const getPostOwner = (postId) => {
+	return axios.post("http://localhost:5000/api/content/getPostOwner", postId);
+}
+
+export const deletePost = (data) => {
+	return axios.post("http://localhost:5000/api/content/deletePost", data)
+}
+
+export const likePost = (data) => {
+	return axios.post("http://localhost:5000/api/content/likePost", data)
+}
+
+export const unlikePost = (data) => {
+	return axios.post("http://localhost:5000/api/content/unlikePost", data)
+}
+
+export const checkLike = (data) => {
+	return axios.post("http://localhost:5000/api/content/checkLike", data)
+}
+
+export const getLikeCount = (data) => {
+	return axios.post("http://localhost:5000/api/content/getLikeCount", data)
+}

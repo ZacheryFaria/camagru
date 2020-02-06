@@ -31,7 +31,6 @@ function Gallery(props) {
 			let tmp = res.data.map((e) => <GalleryBlock key={e._id} postId={e._id}/>);
 			tmp = blocks.concat(tmp);
 			setBlocks(tmp);
-			console.log(res.data)
 			if (res.data.length > 0) {
 				last.current = res.data[res.data.length - 1].created;
 			}

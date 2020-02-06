@@ -4,41 +4,41 @@ function CameraCanvas(props) {
 	const down = useRef(false);
 	const pos = useRef([0, 0]);
 	const scale = useRef(1.0);
-	
-	function mouseDown(e) {
-		down.current = true;
-	}
-
-	function mouseMove(e) {
-		if (down.current) {
-			let canv = document.getElementById("videocanvas");
-			let h = canv.scrollHeight;
-			let w = canv.scrollWidth;
-
-			let x = 1920 / w * e.offsetX;
-			let y = 1080 / h * e.offsetY;
-
-			pos.current[0] = x;
-			pos.current[1] = y;
-			props.redraw(x, y, scale.current);
-		}
-	}
-
-	function mouseUp(e) {
-		down.current = false;
-	}
-
-	function keyDown(e) {
-		if (e.key === '-') {
-			scale.current -= .1;
-			props.redraw(pos.current[0], pos.current[1], scale.current);
-		} else if (e.key === '=') {
-			scale.current += .1;
-			props.redraw(pos.current[0], pos.current[1], scale.current);
-		}
-	}
 
 	useEffect(() => {
+		function mouseDown(e) {
+			down.current = true;
+		}
+
+		function mouseMove(e) {
+			if (down.current) {
+				let canv = document.getElementById("videocanvas");
+				let h = canv.scrollHeight;
+				let w = canv.scrollWidth;
+
+				let x = 640 / w * e.offsetX;
+				let y = 480 / h * e.offsetY;
+
+				pos.current[0] = x;
+				pos.current[1] = y;
+				props.redraw(x, y, scale.current);
+			}
+		}
+
+		function mouseUp(e) {
+			down.current = false;
+		}
+
+		function keyDown(e) {
+			if (e.key === '-') {
+				scale.current -= .1;
+				props.redraw(pos.current[0], pos.current[1], scale.current);
+			} else if (e.key === '=') {
+				scale.current += .1;
+				props.redraw(pos.current[0], pos.current[1], scale.current);
+			}
+		}
+
 		let canv = document.getElementById("videocanvas");
 		canv.addEventListener("mousedown", mouseDown);
 		canv.addEventListener("mousemove", mouseMove);
@@ -57,7 +57,7 @@ function CameraCanvas(props) {
 			canv.removeEventListener("touchmove", mouseUp);
 			window.removeEventListener("keydown", keyDown);
 		});
-	}, []);
+	}, [props]);
 
 	return (
 		<canvas className="CameraCanvas" id="videocanvas"/>

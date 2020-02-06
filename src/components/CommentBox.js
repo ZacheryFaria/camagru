@@ -47,7 +47,6 @@ function CommentBox(props) {
 				<button onClick={sendComment}>Comment</button>
 			</form> : null}
 			{comments}
-			comment {props.postId}
 		</div>
 	);
 }

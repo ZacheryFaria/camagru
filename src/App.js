@@ -17,6 +17,8 @@ import Gallery from "./components/Gallery";
 import Footer from './components/Footer';
 import Verify from "./components/Verify";
 import EmailResend from './components/EmailResend';
+import PasswordResend from './components/PasswordResend';
+import PasswordReset from "./components/PasswordReset";
 
 function App() {
 	return (
@@ -37,6 +39,8 @@ function App() {
 							<Route exact path="/profile/:id?" component={Profile}/>
 							<Route exact path="/verify/:id" component={Verify}/>
 							<Route exact path="/emailresend/:email" component={EmailResend}/>
+							<Route exact path="/passwordresend/:email" component={PasswordResend}/>
+							<Route exact path="/passwordreset/:id" component={PasswordReset}/>
 							<Route component={NotFoundPage}/>
 						</Switch>
 						<Footer/>

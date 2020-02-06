@@ -5,50 +5,14 @@ const bcrypt = require("bcrypt");
 const Token = require("../../models/Token.model");
 const User = require("../../models/User.model");
 const EmailVerify = require("../../models/EmailVerify.model");
-const nodemailer = require("nodemailer");
-const fs = require("fs");
+const PasswordReset = require("../../models/PasswordReset.model");
+const Email = require("./email");
 
 async function createToken(user) {
 	let tok = await Token.create({
 		userId: user._id
 	});
 	return tok._id;
-}
-
-var emailSecret = fs.readFileSync("./secret_email.txt");
-var email = 'zfariacamagru@gmail.com';
-
-var transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: email,
-		pass: "Camagru.1"
-	}
-});
-
-function sendEmail(destination, subject, body) {
-	var options = {
-		from: email,
-		to: destination,
-		subject: subject,
-		text: body
-	};
-
-	return transporter.sendMail(options);
-}
-
-/*
- * sendConfirmatinMail will create a new confirmation link for an email,
- * then send the corresponding email. 
- */
-async function sendConfirmationMail(user) {
-	let email = user.email;
-	
-	let link = await EmailVerify.create({userId: user._id});
-	if (link !== null) {
-		let url = "http://localhost:3000/verify/" + link._id;
-		sendEmail(email, "Welcome to camagru!", `Verify your email with ${url}`);
-	}
 }
 
 async function validateToken(token) {
@@ -88,8 +52,13 @@ router.route("/login").post(async function(req, res) {
 	});
 });
 
-router.route("/logout").post(function(req, res) {
-	const body = req.body;
+router.route("/logout").post(async function(req, res) {
+	let tok = await Token.findOne({_id: req.body.token});
+
+	if (tok) {
+		tok.expires = 0;
+		tok.save();
+	}
 
 	res.send({status: "ok"});
 });
@@ -106,21 +75,11 @@ router.route("/ping").post(async function(req, res) {
 	res.send({status: valid.valid ? "ok" : "ko" });
 });
 
-/*
- * This function shall send a password reset link to the user.
- * It will always respond with 200 OK.
- */
-router.route("/sendpasswordlink").post(function(req, res) {
-	const body = req.body;
-
-	res.send();
-});
-
 router.route("/resendvalidationemail").post(async function(req, res) {
 	let user = await User.findOne({email: RegExp(req.body.email)});
 
 	if (user !== null) {
-		sendConfirmationMail(user);
+		Email.sendConfirmationMail(user);
 	}
 
 	res.send({status: "ok"});
@@ -171,11 +130,43 @@ router.route("/register").post(function(req, res) {
 					res.send({status: "ko"});
 				} else {
 					res.send({status: "ok"});
-					sendConfirmationMail(user);
+					Email.sendConfirmationMail(user);
 				}
 			});
 		}
 	});
+});
+
+router.route("/sendPasswordLink").post(async function(req, res) {
+	let user = await User.findOne({email: RegExp(req.body.email)});
+
+	if (user !== null) {
+		Email.sendPasswordReset(user);
+	}
+	res.send({status: "ok"});
+});
+
+router.route("/resetPasswordLink").post(async function(req, res) {
+	let tok = await PasswordReset.findOne({_id: req.body.id});
+
+	if (tok === null || Date.now() > tok.expires) {
+		res.send({status: "ko", msg: "Reset link invalid or expired."});
+		return;
+	}
+
+	// We now make the token expired so it cannot be reused.
+	tok.expires = 0;
+	tok.save();
+
+	// user should not be null as token is not null
+	let user = await User.findOne({_id: tok.userId});
+
+	let hash = await bcrypt.hash(req.body.password, 10);
+
+	user.password = hash;
+	user.save();
+
+	res.send({status: "ok"});
 });
 
 router.route("/getUserDetails").post(async function(req, res) {
@@ -191,15 +182,46 @@ router.route("/getUserDetails").post(async function(req, res) {
 	let user = await User.findOne({_id: token.userId});
 	user._doc.status = "ok";
 
-	// let res = {
-	// 	photo: "https://cdn.intra.42.fr/users/zfaria.jpg",
-	// 	email: "good@email.com",
-	// 	username: "good",
-	// 	notifications: true,
-	// 	status: "ok"
-	// }
-
 	res.send(user);
+});
+
+router.route("/changePassword").post(async function(req, res) {
+	let tok = await validateToken(req.body.token);
+
+	if (!tok.valid) {
+		res.send({status: "ko", msg: "Token invalid or expired."});
+		return;
+	}
+
+	let user = await User.findOne({_id: tok.userId});
+
+	let result = await bcrypt.compare(req.body.currentPassword, user.password);
+	
+	if (!result) {
+		res.send({status: "ko", msg: "Incorrect password."});
+	} else {
+		let hash = await bcrypt.hash(req.body.newPassword, 10);
+		user.password = hash;
+		user.save();
+		res.send({status: "ok", msg: "Password successfully changed."});
+	}
+});
+
+router.route("/updateUserDetails").post(async function(req, res) {
+	let tok = await validateToken(req.body.token);
+
+	if (!tok.valid) {
+		res.send({status: "ko", msg: "Token invalid or expired."});
+		return;
+	}
+
+	let user = await User.findOne({_id: tok.userId});
+
+	user.username = req.body.username;
+	user.receiveEmails = req.body.receiveEmails;
+	user.save();
+
+	res.send({status: "ok", msg: "User settings successfully updated."});
 });
 
 module.exports = router;

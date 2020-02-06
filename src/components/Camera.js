@@ -48,9 +48,8 @@ function Camera() {
 			token: cookies.token,
 		};
 
-		console.log(req);
 		upload(req).then(res => {
-			console.log(res);
+			//console.log(res);
 		});
 
 		retakePicture();
@@ -65,7 +64,7 @@ function Camera() {
 
 	function drawFilter(img) {
 		filter.current = img;
-		redraw(0, 0, 1.0);
+		redraw(640 / 2, 480 / 2, 1.0);
 	}
 
 	function redraw(x, y, scale) {
@@ -74,7 +73,7 @@ function Camera() {
 		ctx.clearRect(0, 0, canv.width, canv.height);
 		ctx.drawImage(uri.current, 0, 0, canv.width, canv.height);
 		if (filter.current !== null) {
-			let size = 200 * scale;
+			let size = 100 * scale;
 			ctx.drawImage(filter.current, x - size / 2, y - size / 2, size, size);
 		}
 	}
