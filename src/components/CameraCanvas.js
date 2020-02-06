@@ -16,8 +16,8 @@ function CameraCanvas(props) {
 				let h = canv.scrollHeight;
 				let w = canv.scrollWidth;
 
-				let x = 640 / w * e.offsetX;
-				let y = 480 / h * e.offsetY;
+				let x = props.width / w * e.offsetX;
+				let y = props.height / h * e.offsetY;
 
 				pos.current[0] = x;
 				pos.current[1] = y;
