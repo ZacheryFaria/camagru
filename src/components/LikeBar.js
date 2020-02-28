@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { likePost, unlikePost, checkLike, getLikeCount } from "../actions/ContentAction";
 import { useCookies } from "react-cookie";
+import ThumbUp from '@material-ui/icons/ThumbUp';
 import "./LikeBar.css";
 
 function LikeBar(props) {
@@ -58,7 +59,7 @@ function LikeBar(props) {
 
 	return (
 		<div className="LikeBar">
-			<label>{`Likes: ${likeCount}`}</label>
+			<p className="LikeText">{`${likeCount}`}</p><ThumbUp/>
 			{props.isOwner === null || props.isOwner === true || cookies.userId === undefined ? null : likeButton}
 		</div>
 	)

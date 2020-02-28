@@ -42,9 +42,9 @@ function CommentBox(props) {
 
 	return (
 		<div className="CommentBoxContainer">
-			{ cookie.token !== undefined ? <form>
-				<textarea name="comment" placeholder="Enter comment here." value={commentInput} onChange={onChange}/>
-				<button onClick={sendComment}>Comment</button>
+			{ cookie.token !== undefined ? <form className="CommentBoxForm">
+				<textarea className="CommentBox" name="comment" placeholder="Enter comment here." value={commentInput} onChange={onChange}/>
+				<button className="LoginButton" onClick={sendComment}>Comment</button>
 			</form> : null}
 			{comments}
 		</div>

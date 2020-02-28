@@ -54,7 +54,7 @@ function Post(props) {
 			<a href={"/profile/" + userId} className="CommentUsername"><strong>{username}</strong></a>
 			<GalleryBlock className="PostCanvas" postId={id} />
 			<LikeBar postId={id} isOwner={isOwner}/>
-			{isOwner ? <button onClick={removePost}>Delete Post</button> : null}
+			{isOwner ? <button className="DeleteButton" onClick={removePost}>Delete Post</button> : null}
 			<CommentBox postId={id}/>
 		</div>
 	)

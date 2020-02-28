@@ -41,3 +41,43 @@ html, body {
 	height: 100%;
 	object-fit: contain;
 }
+
+.CommentBoxContainer {
+	margin-top: 10px;
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.CommentBoxForm {
+	width: 33%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.CommentBox {
+	box-shadow: 5px 8px 10px grey;
+	margin-bottom: 10px;
+	width: 100%;
+	resize: none;
+}
+
+.DeleteButton {
+	background-color: green;
+	color: white;
+	width: 20%;
+	height: 2%;
+	padding: 0;
+	border: 0;
+	margin: 5px;
+	outline: 0;
+}
+
+.DeleteButton:hover {
+	opacity: 80%;
+}
+
+.DeleteButton:active {
+	opacity: 50%;
+}
