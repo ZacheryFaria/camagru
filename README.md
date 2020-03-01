@@ -1,5 +1,6 @@
 # Camagru
 
+## About
 A (tiny) Instagram clone with
 - Infinitely paged gallery
 - Photo booth
@@ -9,22 +10,28 @@ A (tiny) Instagram clone with
 - Like on posts
 
 ## Techonologies used
-React, Javascript, HTML/CSS
-Utilizes MongoDB and Express backend
+- Javascript
+- HTML/CSS
+- React.js
+- MongoDB / Mongoose
+- Express.js
 
-## Available Scripts
+## Setting up the project
 
-In the project directory, you can run:
+After cloning:
 
-### `npm start`
+`npm install`
 
-Runs the app in the development mode.<br />
+To install prerequesites
+
+`npm run build`
+
+Bundles react in production mode for best performance
+
+`npm start`
+
+Starts up the app in production mode.
+Port will default to 5000 unless PORT env variable was set.
+
 Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
-
-Note: You will ned to build the production ready version for this to work.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
