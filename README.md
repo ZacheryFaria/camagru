@@ -9,7 +9,7 @@ A (tiny) Instagram clone with
 - Comment on Posts
 - Like on posts
 
-## Techonologies used
+## Technologies used
 - Javascript
 - HTML/CSS
 - React.js
